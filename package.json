@@ -1,0 +1,10 @@
+{
+  "name": "animated-qr-code-generator",
+  "version": "1.0.0",
+  "description": "Creative, modern and functional animated QR Code generator avaible for download",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "dependencies": {}
+}
