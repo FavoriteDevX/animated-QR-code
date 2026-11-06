@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QRFuse — Animated QR Code Generator</title>
+  <meta name="description" content="Turn static QR codes into living, animated pixel art that still scans. 14 animation styles, live scan verification, and WebM, GIF & PNG export — 100% in your browser." />
+  <meta name="theme-color" content="#0a0b14" />
+  <meta property="og:title" content="QRFuse — Animated QR Codes That Still Scan" />
+  <meta property="og:description" content="Living, animated QR codes with live scan verification. Export to WebM, GIF or PNG." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237c3aed'/%3E%3Cpath d='M18 4 8 18h7l-2 10 11-15h-7z' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <header class="nav">
+    <a class="brand" href="#top" aria-label="QRFuse home">
+      <span class="brand-mark">⚡</span>
+      <span class="brand-name">QR<span>Fuse</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#generator">Generator</a>
+      <a href="#library">My codes</a>
+      <a href="#styles">Styles</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-ghost btn-sm" href="https://github.com/FavoriteDevX/animated-QR-code" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      <span>GitHub</span>
+    </a>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="dot-live"></span> Live scan verification built in</p>
+      <h1>Animated QR codes<br /><span class="grad-text">that still scan.</span></h1>
+      <p class="lead">Turn boring static QR codes into living pixel art. Pick from 14 motion styles, brand it with your colours and logo, and export a seamless loop as WebM, GIF or PNG — all generated privately in your browser.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#generator">Start creating <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#styles">Browse styles</a>
+      </div>
+      <ul class="hero-stats">
+        <li><strong>14</strong><span>motion styles</span></li>
+        <li><strong>30%</strong><span>error recovery</span></li>
+        <li><strong>0</strong><span>uploads to servers</span></li>
+      </ul>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-card">
+        <canvas id="heroCanvas" width="360" height="360"></canvas>
+        <div class="hero-chip"><span class="dot-ok"></span> <span id="heroStyleName">Retro Pulse</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main id="generator" class="studio" aria-label="QR code studio">
+    <!-- ================= CONTROLS ================= -->
+    <section class="panel controls" aria-label="Settings">
+      <div class="tabs" role="tablist">
+        <button role="tab" class="tab active" data-tab="content" aria-selected="true">Content</button>
+        <button role="tab" class="tab" data-tab="style" aria-selected="false">Motion</button>
+        <button role="tab" class="tab" data-tab="colors" aria-selected="false">Colors</button>
+        <button role="tab" class="tab" data-tab="advanced" aria-selected="false">Advanced</button>
+      </div>
+
+      <!-- Content -->
+      <div class="tab-panel active" data-panel="content" role="tabpanel">
+        <label class="field-label">What should the code open?</label>
+        <div class="seg seg-wrap" id="typeSeg">
+          <button data-type="url" class="active">🔗 URL</button>
+          <button data-type="text">📝 Text</button>
+          <button data-type="wifi">📶 Wi-Fi</button>
+          <button data-type="email">✉️ Email</button>
+          <button data-type="phone">📞 Phone</button>
+          <button data-type="sms">💬 SMS</button>
+          <button data-type="vcard">👤 Contact</button>
+        </div>
+        <div id="fields" class="fields"></div>
+        <div class="capacity">
+          <div class="capacity-row"><span>Payload</span><span id="capText">0 / 0 bytes</span></div>
+          <div class="meter"><div id="capBar"></div></div>
+        </div>
+        <p class="error-msg" id="errorMsg" role="alert" hidden></p>
+        <button class="btn btn-primary btn-block" id="generateBtn">⚡ Generate Code</button>
+      </div>
+
+      <!-- Motion -->
+      <div class="tab-panel" data-panel="style" role="tabpanel" hidden>
+        <label class="field-label">Animation style</label>
+        <div class="style-picker" id="stylePicker"></div>
+
+        <div class="row-2">
+          <div>
+            <label class="field-label" for="loopRange">Loop length <output id="loopOut">3.0s</output></label>
+            <input type="range" id="loopRange" min="1.5" max="6" step="0.5" value="3" />
+          </div>
+          <div>
+            <label class="field-label" for="intensityRange">Intensity <output id="intensityOut">80%</output></label>
+            <input type="range" id="intensityRange" min="0" max="1" step="0.05" value="0.8" />
+          </div>
+        </div>
+
+        <label class="field-label">Module shape</label>
+        <div class="seg" id="shapeSeg">
+          <button data-shape="square">■ Square</button>
+          <button data-shape="rounded">▢ Rounded</button>
+          <button data-shape="dots">● Dots</button>
+          <button data-shape="liquid">◍ Liquid</button>
+        </div>
+
+        <label class="field-label">Corner eyes</label>
+        <div class="seg" id="finderSeg">
+          <button data-finder="square">Square</button>
+          <button data-finder="rounded">Rounded</button>
+          <button data-finder="circle">Circle</button>
+          <button data-finder="leaf">Leaf</button>
+        </div>
+
+        <label class="switch">
+          <input type="checkbox" id="autoPreset" checked />
+          <span class="switch-ui"></span>
+          <span>Apply each style's signature palette &amp; shape</span>
+        </label>
+      </div>
+
+      <!-- Colors -->
+      <div class="tab-panel" data-panel="colors" role="tabpanel" hidden>
+        <label class="field-label">Palettes</label>
+        <div class="palettes" id="palettes"></div>
+
+        <div class="color-grid">
+          <label class="color-field"><input type="color" id="fgColor" /><span><b>Foreground</b><small id="fgHex"></small></span></label>
+          <label class="color-field"><input type="color" id="accentColor" /><span><b>Accent</b><small id="accentHex"></small></span></label>
+          <label class="color-field"><input type="color" id="bgColor" /><span><b>Background</b><small id="bgHex"></small></span></label>
+        </div>
+
+        <label class="field-label">Corner eye colour</label>
+        <div class="seg" id="finderColorSeg">
+          <button data-fc="fg">Foreground</button>
+          <button data-fc="accent">Accent</button>
+        </div>
+
+        <div class="contrast-box" id="contrastBox">
+          <div><span>Foreground contrast</span><b id="cFg">—</b></div>
+          <div><span>Accent contrast</span><b id="cAcc">—</b></div>
+          <p id="contrastHint"></p>
+        </div>
+      </div>
+
+      <!-- Advanced -->
+      <div class="tab-panel" data-panel="advanced" role="tabpanel" hidden>
+        <label class="field-label">Error correction <span class="hint" title="Higher levels survive more animation and logos, at the cost of denser codes.">?</span></label>
+        <div class="seg" id="eclSeg">
+          <button data-ecl="L">L · 7%</button>
+          <button data-ecl="M">M · 15%</button>
+          <button data-ecl="Q">Q · 25%</button>
+          <button data-ecl="H">H · 30%</button>
+        </div>
+
+        <div class="row-2">
+          <div>
+            <label class="field-label" for="versionRange">Min. density <output id="versionOut">Auto</output></label>
+            <input type="range" id="versionRange" min="1" max="15" step="1" value="1" />
+          </div>
+          <div>
+            <label class="field-label" for="quietRange">Quiet zone <output id="quietOut">4</output></label>
+            <input type="range" id="quietRange" min="0" max="8" step="1" value="4" />
+          </div>
+        </div>
+
+        <label class="field-label">Center logo</label>
+        <div class="seg" id="logoSeg">
+          <button data-logo="none">None</button>
+          <button data-logo="text">Emoji / Text</button>
+          <button data-logo="image">Image</button>
+        </div>
+        <div class="logo-opts" id="logoOpts" hidden>
+          <div id="logoTextWrap">
+            <input type="text" id="logoText" class="input" maxlength="4" value="⚡" placeholder="Emoji or up to 4 letters" aria-label="Logo text" />
+          </div>
+          <div id="logoImageWrap" hidden>
+            <label class="file-drop" for="logoFile">
+              <input type="file" id="logoFile" accept="image/*" />
+              <span id="logoFileName">Drop or choose an image (PNG, SVG, JPG)</span>
+            </label>
+          </div>
+          <label class="field-label" for="logoSize">Logo size <output id="logoSizeOut">20%</output></label>
+          <input type="range" id="logoSize" min="0.1" max="0.28" step="0.01" value="0.2" />
+          <p class="micro" id="logoHint">Logos hide part of the code — keep ECC at H for the safest result.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PREVIEW ================= -->
+    <section class="panel preview" aria-label="Preview and export">
+      <div class="preview-head">
+        <div>
+          <p class="micro muted">Now playing</p>
+          <h2 id="styleTitle">Retro Pulse</h2>
+        </div>
+        <div class="scan-badge" id="scanBadge" data-state="pending" aria-live="polite">
+          <span class="scan-dot"></span>
+          <span id="scanText">Verifying…</span>
+        </div>
+      </div>
+
+      <div class="stage" id="stage">
+        <canvas id="qrCanvas" aria-label="Animated QR code preview" role="img"></canvas>
+        <div class="stage-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      </div>
+
+      <div class="transport">
+        <button class="icon-btn" id="playBtn" aria-label="Pause animation" title="Play / pause (Space)">
+          <svg id="icoPause" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M7 5h3v14H7zm7 0h3v14h-3z"/></svg>
+          <svg id="icoPlay" viewBox="0 0 24 24" width="18" height="18" hidden><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+        </button>
+        <input type="range" id="scrub" min="0" max="1" step="0.001" value="0" aria-label="Timeline" />
+        <button class="icon-btn" id="randomBtn" aria-label="Surprise me" title="Surprise me (R)">🎲</button>
+        <button class="icon-btn" id="shareBtn" aria-label="Copy share link" title="Copy a link to this design">🔗</button>
+      </div>
+
+      <div class="meta" id="meta">
+        <span><b id="mVersion">—</b> version</span>
+        <span><b id="mSize">—</b> modules</span>
+        <span><b id="mEcl">—</b> ECC</span>
+        <span><b id="mMask">—</b> mask</span>
+      </div>
+
+      <div class="export">
+        <div class="export-head">
+          <h3>Export</h3>
+          <label class="select-wrap">
+            <span class="micro muted">Size</span>
+            <select id="exportSize" aria-label="Export size">
+              <option value="400">400 px</option>
+              <option value="600" selected>600 px</option>
+              <option value="800">800 px</option>
+              <option value="1024">1024 px</option>
+            </select>
+          </label>
+        </div>
+        <div class="export-btns">
+          <button class="btn btn-primary" id="webmBtn"><span>🎬</span> Download WebM</button>
+          <button class="btn btn-secondary" id="gifBtn"><span>🖼️</span> GIF</button>
+          <button class="btn btn-secondary" id="pngBtn"><span>📸</span> PNG</button>
+          <button class="btn btn-secondary" id="svgBtn"><span>✒️</span> SVG</button>
+          <button class="btn btn-secondary" id="saveBtn"><span>💾</span> Save to library</button>
+        </div>
+        <div class="progress" id="progress" hidden>
+          <div class="progress-bar"><div id="progressFill"></div></div>
+          <span id="progressText">Preparing…</span>
+        </div>
+      </div>
+
+      <div class="audit">
+        <div class="audit-head">
+          <div>
+            <h3>Scan audit</h3>
+            <p class="micro muted">Decodes 32 frames spread across the whole loop.</p>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="auditBtn">Run audit</button>
+        </div>
+        <div class="audit-strip" id="auditStrip" aria-label="Audit results"></div>
+        <p class="micro" id="auditResult"></p>
+      </div>
+    </section>
+  </main>
+
+  <section class="section" id="library">
+    <div class="section-head lib-head">
+      <div>
+        <p class="eyebrow">Your codes</p>
+        <h2>Download library</h2>
+        <p class="lead">Every code you generate is saved here, on this device only. Download any of them again as an animated WebM or GIF, a PNG, or a print-ready SVG, or load it back into the studio.</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="clearLib" hidden>Clear library</button>
+    </div>
+    <div class="library" id="library-grid"></div>
+    <p class="empty-lib muted" id="emptyLib">No codes yet. Hit <b>⚡ Generate Code</b> and they'll show up here, ready to download.</p>
+  </section>
+
+  <section class="section" id="styles">
+    <div class="section-head">
+      <p class="eyebrow">The collection</p>
+      <h2>Fourteen ways to move</h2>
+      <p class="lead">Every style is a pure, phase-based function — so each one loops seamlessly and keeps the scan-critical patterns locked in place. Click any card to load it into the studio.</p>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="section-head">
+      <p class="eyebrow">Under the hood</p>
+      <h2>Why does it still scan?</h2>
+    </div>
+    <div class="how-grid">
+      <article class="how-card">
+        <div class="how-icon">🛡️</div>
+        <h3>Level-H error correction</h3>
+        <p>QR codes carry Reed–Solomon redundancy. At level H up to 30% of the code can be damaged, hidden or in motion and the data is still recovered perfectly.</p>
+      </article>
+      <article class="how-card">
+        <div class="how-icon">🎯</div>
+        <h3>Locked anchors</h3>
+        <p>The three corner eyes and all alignment patterns are rendered static, full-size and full-contrast. Your phone locks on instantly, no matter what the data modules are doing.</p>
+      </article>
+      <article class="how-card">
+        <div class="how-icon">📐</div>
+        <h3>Scan-safe motion limits</h3>
+        <p>Modules never shrink below 60% or drift more than a fifth of a module from their centre, and decorations only touch light areas at low opacity — so every sample point keeps its colour.</p>
+      </article>
+      <article class="how-card">
+        <div class="how-icon">🔬</div>
+        <h3>Verified, not promised</h3>
+        <p>A real decoder runs on the live preview several times per second, and the scan audit decodes frames across the entire loop. If a setting hurts readability, you'll see it immediately.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="section-head">
+      <p class="eyebrow">FAQ</p>
+      <h2>Good to know</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Where can I use an animated QR code?</summary>
+        <p>Anywhere a video or GIF can play: digital signage, event screens, livestream overlays, websites, social posts, presentations and email (GIF). For print, export a PNG frame — the static frame is fully scannable too.</p>
+      </details>
+      <details>
+        <summary>Which export format should I choose?</summary>
+        <p><b>WebM</b> gives the smoothest, smallest video for screens and editors. <b>GIF</b> plays everywhere — chat apps, emails, slides — at the cost of a larger file. <b>PNG</b> captures the current frame in high resolution.</p>
+      </details>
+      <details>
+        <summary>Is my data uploaded anywhere?</summary>
+        <p>No. Encoding, rendering, verification and export all run locally in your browser. Logos you add never leave your device.</p>
+      </details>
+      <details>
+        <summary>My code says "Weak" — what should I change?</summary>
+        <p>Lower the intensity, raise error correction to H, increase colour contrast, keep the quiet zone at 4, or shorten the content (shorter content = bigger modules). The badge updates live as you tweak.</p>
+      </details>
+      <details>
+        <summary>Do these codes expire?</summary>
+        <p>Never. These are static QR codes: the content is encoded directly in the pattern, with no redirect service in between.</p>
+      </details>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="brand"><span class="brand-mark">⚡</span><span class="brand-name">QR<span>Fuse</span></span></div>
+    <p class="muted">Made for people who think QR codes deserve better. Open source on <a href="https://github.com/FavoriteDevX/animated-QR-code" target="_blank" rel="noopener">GitHub</a>.</p>
+    <p class="micro muted">“QR Code” is a registered trademark of DENSO WAVE INCORPORATED.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Decoder used for live scan verification (optional — app degrades gracefully without it) -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js" defer></script>
+  <script src="js/qr.js" defer></script>
+  <script src="js/styles.js" defer></script>
+  <script src="js/renderer.js" defer></script>
+  <script src="js/gif.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
