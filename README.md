@@ -1,8 +1,6 @@
 # ⚡ QRFuse - Animated QR Code Generator
 
-<div align="center">
-  <img src="<img width="200" height="200" alt="215283417-55c9fe42-d47b-4b51-94d1-cfc135280cbd" src="https://github.com/user-attachments/assets/e62d5c7a-9870-43cd-89c1-019c1837578e" />" >
-</div>
+<img width="200" height="200" alt="215283417-55c9fe42-d47b-4b51-94d1-cfc135280cbd" src="https://github.com/user-attachments/assets/d9019cc9-ac02-43d4-a4f2-5d93301e1f66" />
 
 Welcome to **QRFuse**! This is a simple web tool that transforms boring, static QR codes into cool, animated pixel art while keeping them **100% functional and scannable**. 
 
